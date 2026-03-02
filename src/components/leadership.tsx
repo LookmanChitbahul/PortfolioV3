@@ -1,36 +1,52 @@
 export function Leadership() {
+    const activities = [
+        {
+            title: "AgentForce Hackathon 2025",
+            role: "Event Organizer",
+            org: "UoM Computer Club & Nexavenu",
+            period: "Jan 2025",
+            details: "Coordinated logistics, participant engagement, and event operations for university-level AI agent hackathon."
+        },
+        {
+            title: "Google Developer Group (GDG)",
+            role: "Technical Member",
+            org: "GDG Mauritius",
+            period: "2024 - Present",
+            details: "Participate in technical workshops and collaborative development events focused on Google technologies."
+        },
+        {
+            title: "Newbie Developers Group",
+            role: "Active Member",
+            org: "University of Mauritius",
+            period: "2023 - Present",
+            details: "Engage in peer learning and collaborative coding initiatives within the university's technical community."
+        }
+    ];
+
     return (
-        <section id="leadership" className="py-32 bg-muted/10">
-            <div className="max-w-screen-xl mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-                    <div className="md:col-span-4">
-                        <h2 className="text-sm font-medium tracking-widest uppercase text-muted-foreground sticky top-32">
-                            02.5 / Leadership
-                        </h2>
-                    </div>
-                    <div className="md:col-span-8">
-                        <div className="group">
-                            <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
-                                <h3 className="text-2xl font-bold group-hover:text-muted-foreground transition-colors">
-                                    AgentForce Hackathon 2025
-                                </h3>
-                                <span className="text-sm text-muted-foreground font-medium">
-                                    Jan 2025
-                                </span>
+        <section id="leadership" className="py-24 bg-transparent relative overflow-hidden">
+            <div className="max-w-screen-xl mx-auto px-6 relative z-10">
+                <div className="flex items-center gap-4 mb-16">
+                    <div className="w-16 h-[6px] bg-[#bc13fe]"></div>
+                    <h2 className="text-5xl font-black uppercase tracking-tighter text-[#bc13fe] glitch" data-text="LEADER_LOGS">
+                        LEADER_LOGS
+                    </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {activities.map((item, index) => (
+                        <div key={index} className="cyber-card p-10 border-[#bc13fe] bg-black/40 hover:bg-[#bc13fe]/5 transition-all group">
+                            <div className="flex justify-between items-start mb-6">
+                                <span className="text-[#00fcfd] font-black text-xs uppercase tracking-widest">{item.period}</span>
+                                <div className="w-2 h-2 bg-[#f50057] shadow-[0_0_8px_#f50057]" />
                             </div>
-                            <h4 className="text-lg font-medium mb-4">Event Organizer — University of Mauritius</h4>
-                            <div className="space-y-4 text-muted-foreground leading-relaxed max-w-xl">
-                                <p>
-                                    Helped plan and execute a university-level hackathon focused on AI-powered agents and intelligent automation.
-                                </p>
-                                <ul className="list-disc list-inside space-y-2 text-sm">
-                                    <li>Coordinated logistics, scheduling, and participant engagement with organizers, sponsors, and judges.</li>
-                                    <li>Supported participating teams throughout the event, resolving technical and organizational queries.</li>
-                                </ul>
-                            </div>
-                            <div className="h-px bg-border mt-12 w-full" />
+                            <h3 className="text-2xl font-black text-white mb-2 uppercase tracking-tighter italic group-hover:text-[#bc13fe] transition-colors">{item.title}</h3>
+                            <p className="text-[#bc13fe] font-bold text-[10px] mb-6 uppercase tracking-widest">{item.role} @ {item.org}</p>
+                            <p className="text-gray-400 text-sm leading-relaxed font-medium italic border-l border-[#bc13fe]/20 pl-4">
+                                {item.details}
+                            </p>
                         </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </section>

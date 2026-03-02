@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -8,26 +8,21 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const firaCode = Fira_Code({
+  variable: "--font-fira-code",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Lookman Ashraf Chitbahul | Software Engineering Undergraduate",
-  description: "Portfolio of Lookman Ashraf Chitbahul, a Software Engineering Undergraduate based in Mauritius. Specializing in React, backend integrations, and AI-powered solutions.",
-  keywords: ["Lookman Ashraf Chitbahul", "Software Engineer Mauritius", "React Developer", "Strapi", "AI Integration", "University of Mauritius"],
+  title: "Lookman_v3.0.77 | Mercenary_System_Architect",
+  description: "Digital Portfolio of Lookman Ashraf Chitbahul. System Architect specializing in Agentic AI, NextJS ecosystems, and Digital Infiltration.",
+  keywords: ["Lookman Chitbahul", "Cyberpunk Portfolio", "Mercenary Developer", "Agentic AI", "Gemini 3 Flash", "System Architect"],
   authors: [{ name: "Lookman Ashraf Chitbahul" }],
   openGraph: {
-    title: "Lookman Ashraf Chitbahul | Software Engineering Undergraduate",
-    description: "Portfolio of Lookman Ashraf Chitbahul, a Software Engineering Undergraduate based in Mauritius.",
+    title: "Lookman_v3.0.77 | Digital_System_Architect",
+    description: "Neural Interface & Digital Architect based in Mauritius.",
     type: "website",
     locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Lookman Ashraf Chitbahul | Software Engineering Undergraduate",
-    description: "Portfolio of Lookman Ashraf Chitbahul, a Software Engineering Undergraduate based in Mauritius.",
   },
 };
 
@@ -39,12 +34,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${outfit.variable} antialiased bg-background text-foreground transition-colors duration-300`}
+        className={`${inter.variable} ${firaCode.variable} antialiased bg-background text-foreground transition-colors duration-300`}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          enableSystem={false}
           disableTransitionOnChange
         >
           {children}

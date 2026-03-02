@@ -45,15 +45,24 @@ IMPORTANT RULES:
 
 export async function chatWithGemini(userMessage: string, history: { role: string, parts: { text: string }[] }[]) {
     try {
+        if (!userMessage.trim()) return "Please type a message.";
+
+        // Validate history: Gemini requires first message to be "user"
+        const validatedHistory = [...history];
+        if (validatedHistory.length > 0 && validatedHistory[0].role !== "user") {
+            validatedHistory.shift();
+        }
+
         const model = genAI.getGenerativeModel({
             model: "gemini-3-flash-preview",
             systemInstruction: SYSTEM_PROMPT
         })
 
         const chat = model.startChat({
-            history: history,
+            history: validatedHistory,
             generationConfig: {
-                maxOutputTokens: 500,
+                maxOutputTokens: 800,
+                temperature: 0.9,
             },
         })
 
@@ -62,6 +71,6 @@ export async function chatWithGemini(userMessage: string, history: { role: strin
         return response.text()
     } catch (error) {
         console.error("Gemini API Error:", error)
-        return "I'm sorry, I'm having trouble connecting to my brain right now. Please try again later."
+        return `ERROR: Access Denied. (Reason: ${error instanceof Error ? error.message : "System Failure"})`
     }
 }
