@@ -1,0 +1,51 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+# Cancel in-progress runs on same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_and_test:
+    name: Build & Validate Project
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Type checking and Linting
+      run: |
+        # Next.js comes with built-in lint and type checking during build
+        # But we can run them explicitly if defined in package.json
+        npm run lint --if-present
+
+    - name: Next.js Build (Production Bundle)
+      # Simulating generic production environment checks
+      env:
+        # Provide dummy variables so the build process doesn't fail natively due to missing keys
+        NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY: "dummy-key-for-build"
+      run: npm run build
+
+    # Optional: If you had tests implemented (Jest / Cypress)
+    # - name: Run Unit Tests
+    #   run: npm test --if-present

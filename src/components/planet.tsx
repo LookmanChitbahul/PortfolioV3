@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useMotionValue, useSpring } from "framer-motion"
+import { motion } from "framer-motion"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
 
@@ -8,7 +8,6 @@ export function Planet() {
     const { theme, setTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
 
-    // Mounted check for next-themes
     useEffect(() => {
         setMounted(true)
     }, [])
@@ -18,21 +17,24 @@ export function Planet() {
     const isDark = theme === "dark"
 
     return (
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] z-20">
+        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[350px] h-[350px] md:w-[700px] md:h-[700px] z-20">
             <motion.div
                 drag
-                dragConstraints={{ left: -500, right: 100, top: -300, bottom: 300 }}
+                dragConstraints={{ left: -1000, right: 200, top: -500, bottom: 500 }}
                 whileHover={{ scale: 1.05, cursor: "grab" }}
                 whileTap={{ scale: 0.95, cursor: "grabbing" }}
                 onClick={() => setTheme(isDark ? "light" : "dark")}
                 className="w-full h-full relative"
             >
+                {/* Digital background glow */}
+                <div className="absolute inset-0 bg-[#bc13fe] rounded-full blur-[120px] opacity-10 pointer-events-none" />
+
                 <motion.div
                     animate={{
                         rotate: 360,
                     }}
                     transition={{
-                        duration: 200,
+                        duration: 400,
                         repeat: Infinity,
                         ease: "linear",
                     }}
@@ -40,91 +42,76 @@ export function Planet() {
                 >
                     <svg
                         viewBox="0 0 100 100"
-                        className={`w-full h-full transition-colors duration-1000 ${isDark ? "text-white/20" : "text-black/10"
-                            }`}
+                        className="w-full h-full transition-all duration-1000 text-[#bc13fe]"
                     >
                         <defs>
-                            <radialGradient id="planetGradient" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
-                                <stop offset="0%" stopColor={isDark ? "#ffffff" : "#000000"} stopOpacity={isDark ? "0.2" : "0.1"} />
-                                <stop offset="100%" stopColor={isDark ? "#000000" : "#ffffff"} stopOpacity="0" />
+                            <radialGradient id="cyberPlanetGradient" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                                <stop offset="0%" stopColor="#bc13fe" />
+                                <stop offset="100%" stopColor="#000000" />
                             </radialGradient>
-                            <filter id="glow">
-                                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-                                <feMerge>
-                                    <feMergeNode in="coloredBlur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
+                            <radialGradient id="cyberRingGradient" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stopColor="#00fcfd" stopOpacity="0.8" />
+                                <stop offset="100%" stopColor="#bc13fe" stopOpacity="0.2" />
+                            </radialGradient>
                         </defs>
 
-                        {/* Atmosphere/Glow surround */}
-                        <circle cx="50" cy="50" r="48" fill="url(#planetGradient)" />
+                        {/* Outer Field */}
+                        <circle cx="50" cy="50" r="49.5" fill="none" stroke="#00fcfd" strokeWidth="0.1" strokeDasharray="1 2" />
 
-                        {/* Main planet body with shading */}
+                        {/* Main Body */}
                         <circle
                             cx="50"
                             cy="50"
                             r="45"
-                            fill={isDark ? "#111" : "#f0f0f0"}
-                            stroke="currentColor"
-                            strokeWidth="0.2"
+                            fill="url(#cyberPlanetGradient)"
+                            stroke="#bc13fe"
+                            strokeWidth="1"
                         />
 
-                        {/* Shading layer */}
-                        <path
-                            d="M 50,5 A 45,45 0 0,1 50,95 A 35,45 0 0,0 50,5"
-                            fill={isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}
-                        />
+                        {/* Latitude/Longitude Lines */}
+                        <g opacity="0.4">
+                            <ellipse cx="50" cy="50" rx="45" ry="10" fill="none" stroke="#00fcfd" strokeWidth="0.2" />
+                            <ellipse cx="50" cy="50" rx="45" ry="25" fill="none" stroke="#00fcfd" strokeWidth="0.2" />
+                            <line x1="50" y1="5" x2="50" y2="95" stroke="#00fcfd" strokeWidth="0.2" />
+                        </g>
 
-                        {/* Craters / Details */}
-                        <circle cx="30" cy="35" r="4" fill="none" stroke="currentColor" strokeWidth="0.1" />
-                        <circle cx="32" cy="37" r="1" fill="currentColor" opacity="0.1" />
+                        {/* Surface Details */}
+                        <rect x="30" y="30" width="4" height="4" fill="#00fcfd" opacity="0.6" />
+                        <rect x="60" y="55" width="2" height="2" fill="#00fcfd" opacity="0.4" />
+                        <rect x="45" y="75" width="6" height="1" fill="#00fcfd" opacity="0.5" />
 
-                        <circle cx="65" cy="30" r="6" fill="none" stroke="currentColor" strokeWidth="0.1" />
-                        <circle cx="67" cy="32" r="2" fill="currentColor" opacity="0.1" />
-
-                        <circle cx="55" cy="70" r="5" fill="none" stroke="currentColor" strokeWidth="0.1" />
-
-                        <path d="M 40,20 Q 45,22 50,20" fill="none" stroke="currentColor" strokeWidth="0.05" opacity="0.5" />
-                        <path d="M 60,60 Q 65,62 70,60" fill="none" stroke="currentColor" strokeWidth="0.05" opacity="0.5" />
-
-                        {/* Advanced Rings */}
-                        <g transform="rotate(-15 50 50)">
+                        {/* Decorative Cyber Rings */}
+                        <g transform="rotate(-25 50 50)">
                             <ellipse
-                                cx="50" cy="50" rx="60" ry="8"
+                                cx="50" cy="50" rx="80" ry="8"
                                 fill="none"
-                                stroke="currentColor"
-                                strokeWidth="0.05"
-                                opacity={isDark ? "0.3" : "0.1"}
+                                stroke="#00fcfd"
+                                strokeWidth="0.8"
+                                opacity="0.9"
+                                strokeDasharray="20 5"
                             />
                             <ellipse
-                                cx="50" cy="50" rx="55" ry="6"
+                                cx="50" cy="50" rx="65" ry="4"
                                 fill="none"
-                                stroke="currentColor"
-                                strokeWidth="0.03"
-                                opacity={isDark ? "0.2" : "0.05"}
-                            />
-                            <ellipse
-                                cx="50" cy="50" rx="70" ry="10"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="0.02"
-                                opacity={isDark ? "0.1" : "0.03"}
+                                stroke="#f50057"
+                                strokeWidth="0.4"
+                                opacity="0.8"
+                                strokeDasharray="10 2"
                             />
                         </g>
+
+                        {/* Binary / Data Sparkles */}
+                        <text x="20" y="20" fontSize="1" fill="#bc13fe" opacity="1">1011</text>
+                        <text x="75" y="80" fontSize="1" fill="#00fcfd" opacity="1">0001</text>
                     </svg>
                 </motion.div>
 
-                {/* Helper text on hover */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                >
-                    <span className="text-[10px] uppercase tracking-tighter text-muted-foreground bg-background/50 backdrop-blur-sm px-2 py-1 rounded">
-                        Drag to move • Click to toggle theme
+                {/* Cyberpunk Helper UI */}
+                <div className="absolute top-[80%] left-1/2 -translate-x-1/2 opacity-0 hover:opacity-100 transition-opacity bg-[#bc13fe] p-1 shadow-[4px_4px_0px_black]">
+                    <span className="text-[10px] uppercase font-black text-black px-4 py-2 block border-2 border-black whitespace-nowrap">
+                        NEURAL_INTERFACE_LINKED
                     </span>
-                </motion.div>
+                </div>
             </motion.div>
         </div>
     )
