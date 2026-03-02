@@ -34,7 +34,8 @@ export function Chatbot() {
             parts: [{ text: m.text }]
         }))
 
-        const botResponse = await chatWithGemini(userMsg, history as any)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const botResponse = await chatWithGemini(userMsg, history)
         setMessages((prev) => [...prev, { role: "bot", text: botResponse }])
         setIsLoading(false)
     }

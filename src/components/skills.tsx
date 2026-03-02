@@ -83,6 +83,7 @@ function FloatingCategory({ category, baseDirection = -1 }: { category: typeof s
         x.set(currentX);
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleDragEnd = (_: any, info: any) => {
         if (Math.abs(info.velocity.x) > 100) {
             setDirection(info.velocity.x > 0 ? 1 : -1);

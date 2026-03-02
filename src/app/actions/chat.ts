@@ -48,7 +48,7 @@ export async function chatWithGemini(userMessage: string, history: { role: strin
         if (!userMessage.trim()) return "Please type a message.";
 
         // Validate history: Gemini requires first message to be "user"
-        let validatedHistory = [...history];
+        const validatedHistory = [...history];
         if (validatedHistory.length > 0 && validatedHistory[0].role !== "user") {
             validatedHistory.shift();
         }

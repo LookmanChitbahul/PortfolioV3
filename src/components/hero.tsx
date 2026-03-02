@@ -48,7 +48,7 @@ export function Hero() {
                             <span className="text-[10px] font-bold text-[#bc13fe] uppercase tracking-widest animate-pulse">Root_Access_Granted</span>
                         </div>
                         <div className="p-8 font-mono text-sm md:text-base bg-black/80">
-                            <div className="text-gray-500 mb-2">// Initializing core_systems...</div>
+                            <div className="text-gray-500 mb-2">{/* Initializing core_systems... */}</div>
                             <div>
                                 <span className="code-keyword">struct</span> <span className="code-prop">Legend</span> <span className="code-bracket">{"{"}</span>
                             </div>
